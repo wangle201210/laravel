@@ -24,13 +24,14 @@ $api->version('v1',[
 		'limit' => 60,// 一个浏览器每分钟只能请求60次
 		'expires' => 1,
 	], function ($api) {
-		$api->get('test', [
-			'as' => 'test.index', 
-			'uses' => 'App\Http\Controllers\API\TestController@index'
-		]);
+		// 供外部访问的路由
 		$api->post('/auth/login', [
 			'as' => 'api.auth.login',
 			'uses' => 'App\Http\Controllers\API\AuthController@postLogin',
+		]);
+		$api->post('/user/register', [
+			'as' => 'api.user.register',
+			'uses' => 'App\Http\Controllers\API\UserController@register',
 		]);
 		// 登陆才能访问的路由
 		$api->group([
@@ -40,6 +41,23 @@ $api->version('v1',[
 			$api->get('/test/needauth', [
 				'uses' => 'TestController@needAuth',
 				'as' => 'api.test.needauth',
+			]);
+			// 测试
+			$api->post('/test', [
+				'uses' => 'TestController@save',
+				'as' => 'api.test.store',
+			]);
+			$api->get('/tests', [
+				'uses' => 'TestController@index',
+				'as' => 'api.test.index',
+			]);
+			$api->put('/test/{id}', [
+				'uses' => 'TestController@update',
+				'as' => 'api.test.update',
+			]);
+			$api->delete('/test/{id}', [
+				'uses' => 'TestController@destroy',
+				'as' => 'api.test.destroy',
 			]);
 		});
 });
