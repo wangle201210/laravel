@@ -11,7 +11,10 @@
 ## dingo
 - API文档
 - 频率限制
-- 文档生成 php artisan api:docs --name lraveltest --use-version v1 --output-file ./public/documentation.md 或 php artisan make:doc
+
+### 引入apidocjs
+- 引入 npm install apidoc -g
+- 生成API文档 apidoc -i app/Http/Controllers/API -o public/api
 
 ### 常用命令
  	创建控制器

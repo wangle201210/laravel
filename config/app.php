@@ -164,6 +164,7 @@ return [
         // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class
     ],
 
     /*

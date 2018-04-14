@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redis;
+use zgldh\QiniuStorage\QiniuStorage;
 
 class TestController extends Controller
 {
@@ -17,14 +18,36 @@ class TestController extends Controller
         @apiHeader {String} Authorization Bearer + token
         @apiHeaderExample {json} 头部列子:
         {
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+          "Authorization": "Bearer eyJ0eXAiOCI6NZO9ShwFEGVKskg"
+        }
+
+        @apiGroup test
+        @api {post} test/qiniu 测试qiniu云
+        @apiName test_qiniu
+        @apiParam {File} file 需要缓存的内容.
+        @apiSuccessExample {string} 成功返回:
+        HTTP/1.1 201 OK
+        pic/oNWGBOzQihjUZBzltOrrKWLS87s4gghPsM52gnpq.jpeg
+    */
+    public function qiniuTest(Request $request)
+    {
+        $disk = QiniuStorage::disk('qiniu');
+        $qnpath = '/pic';// 七牛云目录
+        $path = $disk->put($qnpath,$request->file('file'));
+        return $path; //最终储存地址
+    }
+    /**
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+          "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
         }
 
         @apiGroup test
         @api {get} test/redis 测试redis
         @apiName test_redis
         @apiParam {String} string 需要缓存的内容.
-        @apiSampleRequest test/redis
         @apiSuccessExample {string} 成功返回:
         HTTP/1.1 201 OK
         string
@@ -41,13 +64,12 @@ class TestController extends Controller
         @apiHeader {String} Authorization Bearer + token
         @apiHeaderExample {json} 头部列子:
         {
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+            "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
         }
 
         @apiGroup test
         @api {get} test/needauth 测试needauth
         @apiName test_needauth
-        @apiSampleRequest test/needauth
         @apiSuccessExample {json} 成功返回:
         HTTP/1.1 201 OK
         "user": {
@@ -69,7 +91,7 @@ class TestController extends Controller
         @apiHeader {String} Authorization Bearer + token
         @apiHeaderExample {json} 头部列子:
         {
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+          "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
         }
 
         @apiGroup test
@@ -77,7 +99,6 @@ class TestController extends Controller
         @apiName test_article
         @apiParam {Number} per_page=20 每页数量.
         @apiParam {Number} page 当前页.
-        @apiSampleRequest tests
         @apiSuccessExample {json} 成功返回:
         HTTP/1.1 201 OK
         {
@@ -122,13 +143,12 @@ class TestController extends Controller
         @apiHeader {String} Authorization Bearer + token
         @apiHeaderExample {json} 头部列子:
         {
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+          "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
         }
         @apiGroup test
         @api {post} tests 测试上传article
         @apiName test_article_save
         @apiParam {String} test test.
-        @apiSampleRequest tests
         @apiSuccessExample {json} 成功返回:
         HTTP/1.1 201 OK
         {
@@ -153,7 +173,6 @@ class TestController extends Controller
      *  @apiGroup test
      *  @apiName test_article_get
      *  @apiParam {Number} id Users unique ID.
-     *  @apiSampleRequest test
     */        
     public function show($id) {
         $ids = getOneOrAll($id);
@@ -171,13 +190,12 @@ class TestController extends Controller
         @apiHeader {String} Authorization Bearer + token
         @apiHeaderExample {json} 头部列子:
         {
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+          "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
         }
         @apiGroup test
         @api {put} tests 测试修改article
         @apiName test_article_update
         @apiParam {String} [test] test.
-        @apiSampleRequest test
         @apiSuccessExample {json} 成功返回:
         HTTP/1.1 201 OK
         {

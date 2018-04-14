@@ -24,7 +24,6 @@ class UserController extends Controller
      *
      * @apiSuccess (201) {Object} data {"name":"wangle4","email":"285273596@qq.com","updated_at":"2018-04-11 15:24:06","created_at":"2018-04-11 15:24:06","id":9}.
      *
-     * @apiSampleRequest user/register
      */
     public function register(Requests\RegisterRequest $request)
     {

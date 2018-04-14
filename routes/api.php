@@ -33,11 +33,35 @@ $api->version('v1',[
 			'as' => 'api.user.register',
 			'uses' => 'App\Http\Controllers\API\UserController@register',
 		]);
+		$api->post('/test/qiniu', [
+			'uses' => 'App\Http\Controllers\API\TestController@qiniuTest',
+			'as' => 'api.test.qiniuTest',
+		]);
 		// 登陆才能访问的路由
 		$api->group([
-			// 'middleware' => 'jwt.auth',
+			'middleware' => 'jwt.auth',
 			'namespace' => 'App\Http\Controllers\API',
 		], function ($api) {
+			//退出登陆
+			$api->delete('/auth/invalidate', [
+				'uses' => 'AuthController@deleteInvalidate',
+				'as' => 'api.auth.invalidate',
+			]);
+			//刷新登陆信息
+			$api->get('/auth/refresh', [
+				'uses' => 'AuthController@patchRefresh',
+				'as' => 'api.auth.refresh',
+			]);
+			// 获取个人信息和用户组
+			$api->match(['get', 'post'], '/auth/user', [
+				'uses' => 'AuthController@getUser',
+				'as' => 'api.auth.user',
+			]);
+			// 重置密码
+			$api->put('/auth/resetpwd', [
+				'uses' => 'AuthController@putResetpwd',
+				'as' => 'api.auth.resetpwd',
+			]);
 			$api->get('/test/redis', [
 				'uses' => 'TestController@redisTest',
 				'as' => 'api.test.redisTest',

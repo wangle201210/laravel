@@ -13,7 +13,8 @@
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
         "santigarcor/laratrust": "5.0.*",
-        "tymon/jwt-auth": "1.*"
+        "tymon/jwt-auth": "1.*",
+        "zgldh/qiniu-laravel-storage": "^0.9.2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

@@ -15,12 +15,30 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller {
 	protected $guard = 'api';
 	/**
-	 * 登录 Login（get token）
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+     * @apiVersion 0.0.1
+     * @api {post} auth/login 用户登陆
+     * @apiName auth_login
+     * @apiGroup User
+     *
+     * @apiParam {String} name 姓名.
+     * @apiParam {String} password 密码.
+     *
+     * @apiSuccessExample {json} 成功返回:
+     HTTP/1.1 201 OK
+     {
+		  "result": {
+		    "token": "eyJ0eXAiOihKRRnreQ-Zw4",
+		    "user": {
+		      "id": 7,
+		      "name": "wangle2",
+		      "email": "285273594@qq.com",
+		      "created_at": "2018-04-04 02:52:00",
+		      "updated_at": "2018-04-04 02:52:00"
+		    }
+		  }
+		}
+     *
+     */
 	public function postLogin(Requests\AuthRequest $request) {
 		// grab credentials from the request
         $credentials = $request->only('name','password');
@@ -136,34 +154,60 @@ class AuthController extends Controller {
 		return $request->only('phone', 'password', 'is_lock');
 	}
 	/**
-	 * 使得token失效Invalidate a token.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+     * @apiVersion 0.0.1
+     * @api {post} auth/login 用户退出
+     * @apiName auth_login_out
+     * @apiGroup User
+     *
+     @apiHeader {String} Authorization Bearer + token
+     @apiHeaderExample {json} 头部列子:
+     {
+    	"Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
+     }
+     @apiSuccessExample {json} 成功返回:
+     HTTP/1.1 201 OK
+     {
+		"message": "退出登陆成功!"
+	 }
+     *
+     */
 	public function deleteInvalidate() {
 		$token = JWTAuth::parseToken();
 
 		$token->invalidate();
 
-		return new JsonResponse(['message' => 'token_invalidated']);
+		return new JsonResponse(['message' => '退出登陆成功!']);
 	}
-
 	/**
-	 * 刷新Token信息 Refresh token
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+     * @apiVersion 0.0.1
+     * @api {get} auth/refresh 刷新登陆信息
+     * @apiName auth_refresh
+     * @apiGroup User
+     *
+     @apiHeader {String} Authorization Bearer + token
+     @apiHeaderExample {json} 头部列子:
+     {
+      "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
+     }
+     @apiSuccessExample {json} 成功返回:
+     HTTP/1.1 201 OK
+     {
+	  "message": "登陆信息刷新成功!",
+	  "data": "eyJ0eXAiOiJKvr-s"
+	 }
+     *
+     */
 	public function patchRefresh() {
 		try {
 			$newToken = JWTAuth::parseToken()->refresh();
 		} catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
 			return new JsonResponse([
-				'message' => 'The token has been blacklisted',
+				'message' => '登陆信息已过期,请重新登录!',
 				'status_code' => 401,
 			], 401);
 		}
 		return response([
-			'message' => 'token_refreshed',
+			'message' => '登陆信息刷新成功!',
 			'data' => $newToken,
 		])
 			->header('Authorization', $newToken)
@@ -175,29 +219,65 @@ class AuthController extends Controller {
 		//     ]
 		// ]);
 	}
-
 	/**
-	 * 获取个人信息和用户组personal info
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+     * @apiVersion 0.0.1
+     * @api {get} auth/user 获取个人信息和用户组
+     * @apiName auth_user
+     * @apiGroup User
+     *
+     @apiHeader {String} Authorization Bearer + token
+     @apiHeaderExample {json} 头部列子:
+     {
+      "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
+     }
+     @apiSuccessExample {json} 成功返回:
+     HTTP/1.1 201 OK
+     {
+	  "data": {
+	    "me": {
+	      "id": 7,
+	      "name": "wangle2",
+	      "email": "285273594@qq.com",
+	      "created_at": "2018-04-04 02:52:00",
+	      "updated_at": "2018-04-14 18:33:01"
+	    },
+	    "roles": [
+	      "user"
+	    ]
+	  }
+	 }
+     *
+     */
 	public function getUser() {
 		if (user()->roles()->get()->isEmpty()) {
 			$role = '';
 		} else {
 			$role = user()->roles()->get()->pluck('name'); //->implode(',');
 		}
-		return new JsonResponse(['data' => [
-			'me' => JWTAuth::parseToken()->authenticate(),
-			'roles' => $role],
+		return new JsonResponse(['data' => 
+			[
+				'me' => JWTAuth::parseToken()->authenticate(),
+				'roles' => $role
+			],
 		]);
 	}
 	/**
-	 * 重置密码Reset pwd
-	 * @param  Request $request [password验证]
-	 * @return [type]           [description]
-	 */
-	public function putResetpwd(Requests\ResetPwdRequest $request) {
+     * @apiVersion 0.0.1
+     * @api {get} auth/resetpwd 重置密码
+     * @apiName auth_resetpwd
+     * @apiGroup User
+     *
+     @apiHeader {String} Authorization Bearer + token
+     @apiHeaderExample {json} 头部列子:
+     {
+      "Authorization": "Bearer eyJ0eXuHZO9ShwFEGVKskg"
+     }
+     @apiSuccessExample {json} 成功返回:
+     HTTP/1.1 201 OK
+     {"id":7,"name":"wangle2","email":"285273594@qq.com","created_at":"2018-04-04 02:52:00","updated_at":"2018-04-14 18:50:48"}
+     *
+     */
+	public function putResetpwd(Request $request) {
 		// dd($request->only('phone'),$request->json(),jsonData($request,'phone'));
 		$pwd = jsonData($request, 'password');
 		$user = JWTAuth::parseToken()->authenticate();

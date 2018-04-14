@@ -64,6 +64,19 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => env('QNY_YM',''), //你的七牛域名
+                'https'     => 'l.t',         //你的HTTPS域名
+                'custom'    => 'l.t',     //你的自定义域名
+             ],
+            'access_key'=> env('QNY_ACC',''),  //AccessKey
+            'secret_key'=> env('QNY_SEC',''),  //SecretKey
+            'bucket'    => 'picture',  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+        ],
+
     ],
 
 ];
