@@ -8,33 +8,109 @@ use App\Http\Transformer\TestTransformer;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-/**
- *
- * 请将header中的Authorization token设置正确
- *
- * @Versions({"v1"})
- * @Resource("AppController", uri="/api")
- */
+use Illuminate\Support\Facades\Redis;
+
 class TestController extends Controller
 {
     /**
-     * 测试jwt
-     *
-     * @Get("/needAuth")
-     */
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+        }
+
+        @apiGroup test
+        @api {get} test/redis 测试redis
+        @apiName test_redis
+        @apiParam {String} string 需要缓存的内容.
+        @apiSampleRequest test/redis
+        @apiSuccessExample {string} 成功返回:
+        HTTP/1.1 201 OK
+        string
+    */
+
+    public function redisTest(Request $request)
+    {
+        Redis::set('name', $request->string);
+        $res = Redis::get('name');
+        return $res;
+    }
+    /**
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+        }
+
+        @apiGroup test
+        @api {get} test/needauth 测试needauth
+        @apiName test_needauth
+        @apiSampleRequest test/needauth
+        @apiSuccessExample {json} 成功返回:
+        HTTP/1.1 201 OK
+        "user": {
+            "id": 7,
+            "name": "wangle2",
+            "email": "285273594@qq.com",
+            "created_at": "2018-04-04 02:52:00",
+            "updated_at": "2018-04-04 02:52:00"
+        }
+    */
     public function needAuth(Request $request)
     {
         // $user = auth()->user();
-        $user = user('roles');
+        $user = user();
         return $this->response->array($user);
     }
     /**
-     * 增加文章 Add Test
-     * @GET("/tests")
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+        }
+
+        @apiGroup test
+        @api {get} tests 测试获取article
+        @apiName test_article
+        @apiParam {Number} per_page=20 每页数量.
+        @apiParam {Number} page 当前页.
+        @apiSampleRequest tests
+        @apiSuccessExample {json} 成功返回:
+        HTTP/1.1 201 OK
+        {
+            "data": [
+                {
+                    "id": 1,
+                    "created_at": "2018-04-03 18:05:41",
+                    "updated_at": "2018-04-03 18:05:35",
+                    "test": "test",
+                    "title": "test1"
+                },
+                {
+                    "id": 2,
+                    "created_at": "2018-04-03 18:05:41",
+                    "updated_at": "2018-04-03 18:05:35",
+                    "test": "test",
+                    "title": "test2"
+                }
+            ],
+            "meta": {
+                "pagination": {
+                    "total": 19,
+                    "count": 2,
+                    "per_page": 2,
+                    "current_page": 1,
+                    "total_pages": 10,
+                    "links": {
+                    "next": "http:\/\/l.t\/api\/tests?page=2"
+                    }
+                }
+            }
+        }
+    */
     public function index(Request $request) {
         $per_page = getAnyData($request, 'per_page', 20);
         $test = Test::setFilterAndRelationsAndSort($request)->paginate($per_page);
@@ -42,26 +118,43 @@ class TestController extends Controller
     }
 
     /**
-     * 增加文章 Add Test
-     * @POST("/test")
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Requests\TestRequest $request) {
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+        }
+        @apiGroup test
+        @api {post} tests 测试上传article
+        @apiName test_article_save
+        @apiParam {String} test test.
+        @apiSampleRequest tests
+        @apiSuccessExample {json} 成功返回:
+        HTTP/1.1 201 OK
+        {
+            "data": {
+                "test": "ssss",
+                "updated_at": "2018-04-11 21:55:25",
+                "created_at": "2018-04-11 21:55:25",
+                "id": 24,
+                "title": "ssss24"
+            }
+        }
+    */
+    public function store(Request $request) {
         $test = new Test;
         $test['test'] = $request->test;
         $test->save();
         return $this->response->item($test, new TestTransformer)->setStatusCode(201);
     }
-
     /**
-     * 显示特定的文章 Display the specified Test.
-     * @GET("/test/{id}")
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     *  @api {get} test/:id getArticle
+     *  @apiVersion 0.0.1
+     *  @apiGroup test
+     *  @apiName test_article_get
+     *  @apiParam {Number} id Users unique ID.
+     *  @apiSampleRequest test
+    */        
     public function show($id) {
         $ids = getOneOrAll($id);
         if (is_array($ids)) {
@@ -74,13 +167,29 @@ class TestController extends Controller
     }
 
     /**
-     * 更新文章 Update the specified Test
-     * @PUT("/test/{id}")
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        @apiVersion 0.0.1
+        @apiHeader {String} Authorization Bearer + token
+        @apiHeaderExample {json} 头部列子:
+        {
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sLnRcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1MjM0MjcwMDAsImV4cCI6MTUyMzQzNzgwMCwibmJmIjoxNTIzNDI3MDAwLCJqdGkiOiJxZDNJa1JGOFdrVWVWQk50Iiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6N319.oilxJtv04JbhmBztLWNbweXgq7tuHZO9ShwFEGVKskg"
+        }
+        @apiGroup test
+        @api {put} tests 测试修改article
+        @apiName test_article_update
+        @apiParam {String} [test] test.
+        @apiSampleRequest test
+        @apiSuccessExample {json} 成功返回:
+        HTTP/1.1 201 OK
+        {
+            "data": {
+                "test": "ssss",
+                "updated_at": "2018-04-11 21:55:25",
+                "created_at": "2018-04-11 21:55:25",
+                "id": 24,
+                "title": "ssss24"
+            }
+        }
+    */
     public function update(Request $request, $id) {
         $test = Test::find($id);
         foreach ($test->getOriginal() as $key => $value) {

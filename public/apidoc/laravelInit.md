@@ -4,11 +4,33 @@ FORMAT: 1A
 
 # UserController [/api/user]
 
-## 用户注册 [GET /api/user/register]
+## 用户注册 [POST /api/user/register]
+Register a new user with a `username` and `password`.
 
++ Parameters
+    + name: (string, required) - 姓名
+    + email: (string, required) - 邮箱
+    + password: (string, required) - 密码
+    + comfirm: (string, required) - 确认密码
+
++ Response 201 (application/json)
+    + Body
+
+            {
+                "data": {
+                    "name": "wangle4",
+                    "email": "285273596@qq.com",
+                    "updated_at": "2018-04-11 15:24:06",
+                    "created_at": "2018-04-11 15:24:06",
+                    "id": 9
+                }
+            }
 
 # AppController [/api]
 请将header中的Authorization token设置正确
+
+## 测试redis [GET /api/redis]
+
 
 ## 测试jwt [GET /api/needAuth]
 

@@ -8,18 +8,23 @@ use App\Http\Transformer\UserTransformer;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-/**
- *
- *
- * @Versions({"v1"})
- * @Resource("UserController", uri="/api/user")
- */
+
 class UserController extends Controller
 {
     /**
-     * 用户注册
+     * @apiVersion 0.0.1
+     * @api {post} user/register 注册用户
+     * @apiName user_register
+     * @apiGroup User
      *
-     * @Get("/register")
+     * @apiParam {String} name 姓名.
+     * @apiParam {String} email 邮箱.
+     * @apiParam {String} password 密码.
+     * @apiParam {String} comfirm 确定密码.
+     *
+     * @apiSuccess (201) {Object} data {"name":"wangle4","email":"285273596@qq.com","updated_at":"2018-04-11 15:24:06","created_at":"2018-04-11 15:24:06","id":9}.
+     *
+     * @apiSampleRequest user/register
      */
     public function register(Requests\RegisterRequest $request)
     {

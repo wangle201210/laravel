@@ -35,21 +35,29 @@ $api->version('v1',[
 		]);
 		// 登陆才能访问的路由
 		$api->group([
-			'middleware' => 'jwt.auth',
+			// 'middleware' => 'jwt.auth',
 			'namespace' => 'App\Http\Controllers\API',
 		], function ($api) {
+			$api->get('/test/redis', [
+				'uses' => 'TestController@redisTest',
+				'as' => 'api.test.redisTest',
+			]);
 			$api->get('/test/needauth', [
 				'uses' => 'TestController@needAuth',
 				'as' => 'api.test.needauth',
 			]);
 			// 测试
-			$api->post('/test', [
-				'uses' => 'TestController@save',
+			$api->post('/tests', [
+				'uses' => 'TestController@store',
 				'as' => 'api.test.store',
 			]);
 			$api->get('/tests', [
 				'uses' => 'TestController@index',
 				'as' => 'api.test.index',
+			]);
+			$api->get('/test/{id}', [
+				'uses' => 'TestController@show',
+				'as' => 'api.test.show',
 			]);
 			$api->put('/test/{id}', [
 				'uses' => 'TestController@update',

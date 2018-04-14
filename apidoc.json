@@ -1,0 +1,10 @@
+{
+  "name": "wangle`s laravelInit文档",
+  "version": "0.0.1",
+  "description": "wangle`s laravelInit文档",
+  "url" : "http://l.t/api/",
+  "apidoc": {
+    "title": "wangle`s laravelInit文档",
+    "url" : "http://l.t/doc"
+  }
+}

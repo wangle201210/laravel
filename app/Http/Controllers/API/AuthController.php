@@ -12,13 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-/**
- * Class AuthController
- * @package App\Http\Controllers
- * @resource Auth
- *
- * 用户登录(APP不使用此接口 APP使用sauth)
- */
 class AuthController extends Controller {
 	protected $guard = 'api';
 	/**

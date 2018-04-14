@@ -12,9 +12,33 @@
 <p>FORMAT: 1A</p>
 <h1 id="laravel">Laravel</h1>
 <h1 id="usercontroller-apiuser">UserController [/api/user]</h1>
-<h2 id="用户注册-get-apiuserregister">用户注册 [GET /api/user/register]</h2>
+<h2 id="用户注册-post-apiuserregister">用户注册 [POST /api/user/register]</h2>
+<p>Register a new user with a <code>username</code> and <code>password</code>.</p>
+<ul>
+<li>Parameters
+<ul>
+<li>name: (string, required) - 姓名</li>
+<li>email: (string, required) - 邮箱</li>
+<li>password: (string, required) - 密码</li>
+<li>comfirm: (string, required) - 确认密码</li>
+</ul></li>
+<li>Response 201 (application/json)
+<ul>
+<li><p>Body</p>
+<pre><code>{
+    &quot;data&quot;: {
+        &quot;name&quot;: &quot;wangle4&quot;,
+        &quot;email&quot;: &quot;285273596@qq.com&quot;,
+        &quot;updated_at&quot;: &quot;2018-04-11 15:24:06&quot;,
+        &quot;created_at&quot;: &quot;2018-04-11 15:24:06&quot;,
+        &quot;id&quot;: 9
+    }
+}</code></pre></li>
+</ul></li>
+</ul>
 <h1 id="appcontroller-api">AppController [/api]</h1>
 <p>请将header中的Authorization token设置正确</p>
+<h2 id="测试redis-get-apiredis">测试redis [GET /api/redis]</h2>
 <h2 id="测试jwt-get-apineedauth">测试jwt [GET /api/needAuth]</h2>
 <h2 id="增加文章-add-test-get-apitests">增加文章 Add Test [GET /api/tests]</h2>
 <h2 id="增加文章-add-test-post-apitest">增加文章 Add Test [POST /api/test]</h2>
