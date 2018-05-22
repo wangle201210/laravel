@@ -164,7 +164,8 @@ return [
         // Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+        lyt8384\Pingpp\PingppServiceProvider::class,
     ],
 
     /*
@@ -218,6 +219,7 @@ return [
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Laratrust'   => Laratrust\LaratrustFacade::class,
         // 'Dingo' => Dingo\Api\Facade\API::class,
+        'Pingpp' => lyt8384\Pingpp\Facades\Pingpp::class,
     ],
 
 ];

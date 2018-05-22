@@ -55,14 +55,16 @@ class LaratrustSeeder extends Seeder {
                 $email = rand(10000, 9999999999).'@qq.com';
             } else {
                 $email = '285273592@qq.com';
+                $name = 'wangle';
             }
             $user = \App\User::create([
-                'name' => ucfirst($key),
+                'name' => $name ?? ucfirst($key),
                 'email' => $email,
                 'password' => bcrypt('password'),
                 'remember_token' => str_random(10),
             ]);
             $user->attachRole($role);
+            unset($name);
         }
 
         // creating user with permissions
@@ -74,10 +76,11 @@ class LaratrustSeeder extends Seeder {
                     if (\App\User::count()) {
                         $email = rand(10000, 9999999999).'@qq.com';
                     } else {
+                        $name = 'wangle';
                         $email = '285273592@qq.com';
                     }
                     $user = \App\User::create([
-                        'name' => ucfirst($key),
+                        'name' => $name ?? ucfirst($key),
                         'email' => $email,
                         'password' => bcrypt('password'),
                         'remember_token' => str_random(10),

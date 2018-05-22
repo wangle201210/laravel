@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "def8ea92a812a77cb7ffdb532e1f9c2e",
+    "content-hash": "2b64ac2d16c32ea5f8c204f64268bebf",
     "packages": [
         {
             "name": "dingo/api",
@@ -1285,6 +1285,53 @@
             "time": "2017-06-12T11:04:56+00:00"
         },
         {
+            "name": "lyt8384/pingpp-laravel5-plus",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lyt8384/pingpp-laravel5-plus.git",
+                "reference": "ec6c47d3347059db067896ecb1eaacad6f24e714"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/lyt8384/pingpp-laravel5-plus/ec6c47d3347059db067896ecb1eaacad6f24e714.zip",
+                "reference": "ec6c47d3347059db067896ecb1eaacad6f24e714",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "illuminate/support": "~5.0",
+                "laravel/framework": "5.*",
+                "php": ">=5.4.0",
+                "pingplusplus/pingpp-php": ">=2.1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lyt8384\\Pingpp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "lyt8384",
+                    "email": "lyt8384@gmail.com"
+                }
+            ],
+            "description": "Simple Pingpp wrapper for Laravel 5",
+            "homepage": "https://github.com/lyt8384/pingpp-laravel5-plus",
+            "keywords": [
+                "Pingxx",
+                "laravel",
+                "laravel 5",
+                "pingpp"
+            ],
+            "time": "2017-01-02T14:09:04+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.23.0",
             "source": {
@@ -1766,6 +1813,54 @@
                 }
             ],
             "time": "2017-07-14T14:27:02+00:00"
+        },
+        {
+            "name": "pingplusplus/pingpp-php",
+            "version": "2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PingPlusPlus/pingpp-php.git",
+                "reference": "38b27ae54cf2b4dd1744bf4dd9ee7ae410b809c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/PingPlusPlus/pingpp-php/38b27ae54cf2b4dd1744bf4dd9ee7ae410b809c6.zip",
+                "reference": "38b27ae54cf2b4dd1744bf4dd9ee7ae410b809c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": []
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pingpp\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pingplusplus and contributors",
+                    "homepage": "https://github.com/PingPlusPlus/pingpp-php/contributors"
+                }
+            ],
+            "description": "Pingplusplus PHP Library",
+            "homepage": "https://pingxx.com/",
+            "keywords": [
+                "api",
+                "mobile payment processing",
+                "pingpp"
+            ],
+            "time": "2018-01-10T03:01:51+00:00"
         },
         {
             "name": "predis/predis",

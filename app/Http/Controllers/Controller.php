@@ -42,6 +42,8 @@ class Controller extends BaseController
 		# 关联搜索
 	 	/message?expand=user 
 	 	response: { "id": 1, "message": "some message", "user_id": 1, ... "user": { "id": 1, "name": "Some username", ... } }
+	 	# 获取多条(获取message里面id为1,2,3的3条)
+	 	/message/1,2,3
 	 	}
     */
 }

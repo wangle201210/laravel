@@ -33,21 +33,41 @@ $api->version('v1',[
 			'as' => 'api.user.register',
 			'uses' => 'App\Http\Controllers\API\UserController@register',
 		]);
-		$api->post('/test/qiniu', [
-			'uses' => 'App\Http\Controllers\API\TestController@qiniuTest',
-			'as' => 'api.test.qiniuTest',
-		]);
+		
 		// 登陆才能访问的路由
 		$api->group([
 			'middleware' => 'jwt.auth',
 			'namespace' => 'App\Http\Controllers\API',
 		], function ($api) {
-			//退出登陆
+			// 七牛云上传
+			$api->post('/qiniu', [
+				'uses' => 'HelperController@qiniu',
+				'as' => 'api.test.qiniuTest',
+			]);
+			// ping++
+			$api->get('/ping', [
+				'uses' => 'HelperController@ping',
+				'as' => 'api.test.ping',
+			]);
+			// redis缓存
+			$api->get('/test/redis', [
+				'uses' => 'TestController@redisTest',
+				'as' => 'api.test.redisTest',
+			]);
+			// 角色
+			$api->post('/role/attachpermission/{id}', [
+				'uses' => 'RoleController@attachPermission',
+				'as' => 'api.role.attachpermission',
+			]);
+			$api->resource('role', 'RoleController');
+			// 权限
+			$api->resource('permission', 'PermissionController');
+			// 退出登陆
 			$api->delete('/auth/invalidate', [
 				'uses' => 'AuthController@deleteInvalidate',
 				'as' => 'api.auth.invalidate',
 			]);
-			//刷新登陆信息
+			// 刷新登陆信息
 			$api->get('/auth/refresh', [
 				'uses' => 'AuthController@patchRefresh',
 				'as' => 'api.auth.refresh',
@@ -61,14 +81,6 @@ $api->version('v1',[
 			$api->put('/auth/resetpwd', [
 				'uses' => 'AuthController@putResetpwd',
 				'as' => 'api.auth.resetpwd',
-			]);
-			$api->get('/test/redis', [
-				'uses' => 'TestController@redisTest',
-				'as' => 'api.test.redisTest',
-			]);
-			$api->get('/test/needauth', [
-				'uses' => 'TestController@needAuth',
-				'as' => 'api.test.needauth',
 			]);
 			// 测试
 			$api->post('/tests', [
@@ -91,5 +103,29 @@ $api->version('v1',[
 				'uses' => 'TestController@destroy',
 				'as' => 'api.test.destroy',
 			]);
+			// 分类
+			$api->post('/categories', [
+				'uses' => 'CategoryController@store',
+				'as' => 'api.category.store',
+			]);
+			$api->get('/categories', [
+				'uses' => 'CategoryController@index',
+				'as' => 'api.category.index',
+			]);
+			$api->get('/category/{id}', [
+				'uses' => 'CategoryController@show',
+				'as' => 'api.category.show',
+			]);
+			$api->put('/category/{id}', [
+				'uses' => 'CategoryController@update',
+				'as' => 'api.category.update',
+			]);
+			$api->delete('/category/{id}', [
+				'uses' => 'CategoryController@destroy',
+				'as' => 'api.category.destroy',
+			]);
+			// 文章
+			$dir = base_path('routes/api/article.php');
+			require_once ($dir);
 		});
 });
